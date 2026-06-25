@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SimpleBot Academy — Learn Python by controlling LEDs, servos, and NeoPixels on a real ESP32 board. Interactive coding in your browser.">
+  <title>SimpleBot Academy — Python + Hardware</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CodeMirror -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/material-darker.min.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ====== LOADING OVERLAY ====== -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-content">
+      <div class="loading-icon">
+        <div class="loading-ring"></div>
+        <span class="loading-emoji">🔌</span>
+      </div>
+      <h2 class="loading-title">Initializing Python Engine</h2>
+      <p class="loading-subtitle">Loading Pyodide (first time may take a moment)…</p>
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill" id="loading-bar"></div>
+      </div>
+      <p class="loading-status" id="loading-status">Downloading Python runtime…</p>
+    </div>
+  </div>
+
+  <!-- ====== TOP NAV ====== -->
+  <header class="top-nav" id="top-nav">
+    <div class="nav-left">
+      <a href="../index.html" class="nav-back" title="Back to Hub">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="nav-brand">
+        <span class="nav-logo">🔌</span>
+        <span class="nav-title">SimpleBot Academy</span>
+      </div>
+    </div>
+    <div class="nav-center">
+      <span class="nav-week" id="nav-week">Week 1</span>
+      <span class="nav-separator">·</span>
+      <span class="nav-lesson-title" id="nav-lesson-title">First Light</span>
+    </div>
+    <div class="nav-right">
+      <div class="nav-progress" id="nav-progress">
+        <!-- Dots rendered by JS -->
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== MAIN CONTENT ====== -->
+  <main class="workspace" id="workspace">
+
+    <!-- LEFT: Lesson Panel -->
+    <aside class="lesson-panel" id="lesson-panel">
+      <div class="lesson-scroll" id="lesson-scroll">
+
+        <!-- Exercise header -->
+        <div class="exercise-header" id="exercise-header">
+          <span class="exercise-number" id="exercise-number">MISSION 1 of 6</span>
+          <h1 class="exercise-title" id="exercise-title">💡 First Light</h1>
+        </div>
+
+        <!-- Exercise body (rendered by JS) -->
+        <div class="exercise-body" id="exercise-body"></div>
+
+        <!-- Hint section -->
+        <div class="hint-section" id="hint-section" style="display:none;">
+          <button class="hint-toggle" id="hint-toggle">
+            <span class="hint-icon">💡</span> Show Hint
+          </button>
+          <div class="hint-content" id="hint-content" style="display:none;"></div>
+        </div>
+
+        <!-- Solution section -->
+        <div class="solution-section" id="solution-section" style="display:none;">
+          <button class="solution-toggle" id="solution-toggle">
+            <span class="solution-icon">📖</span> Show Solution
+          </button>
+          <pre class="solution-content" id="solution-content" style="display:none;"></pre>
+        </div>
+
+        <!-- Success message -->
+        <div class="success-message" id="success-message" style="display:none;">
+          <div class="success-icon">🎉</div>
+          <p class="success-text" id="success-text">Perfect!</p>
+          <button class="btn btn-next" id="btn-next">
+            Next Mission <span class="btn-arrow">→</span>
+          </button>
+        </div>
+
+        <!-- Reflection prompts -->
+        <div class="reflection-section" id="reflection-section" style="display:none;">
+          <h3 class="reflection-title">🪞 Reflect & Deepen</h3>
+          <ul class="reflection-list" id="reflection-list"></ul>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- RESIZE HANDLE -->
+    <div class="resize-handle" id="resize-handle" title="Drag to resize panels">
+      <div class="resize-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Code Panel -->
+    <section class="code-panel" id="code-panel">
+
+      <!-- Editor toolbar -->
+      <div class="editor-toolbar">
+        <div class="editor-tab">
+          <span class="editor-tab-icon">📄</span>
+          <span class="editor-tab-name" id="editor-tab-name">mission_01.py</span>
+        </div>
+        <div class="editor-actions">
+          <button class="editor-btn" id="btn-reset" title="Reset code to starter">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2v5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.05 10A6 6 0 1 0 4.18 4.18L2 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Reset
+          </button>
+          <button class="editor-btn btn-run" id="btn-run" title="Run code (Ctrl+Enter)">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2l10 6-10 6V2z" fill="currentColor"/></svg>
+            Run
+          </button>
+        </div>
+      </div>
+
+      <!-- Code editor (CodeMirror mounts here) -->
+      <div class="editor-container" id="editor-container"></div>
+
+      <!-- Console -->
+      <div class="console-section" id="console-section">
+        <div class="console-toolbar">
+          <div class="console-tab">
+            <span class="console-tab-icon">▸</span>
+            <span>Console</span>
+          </div>
+          <button class="console-clear" id="btn-clear-console" title="Clear console">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="console-output" id="console-output">
+          <div class="console-welcome">
+            <span class="console-prompt">▸</span> Python 3.11 (Pyodide) — Ready
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ====== STATUS BAR ====== -->
+  <footer class="status-bar" id="status-bar">
+    <div class="status-left">
+      <div class="status-robot" id="status-robot">
+        <span class="status-robot-dot disconnected"></span>
+        <span class="status-robot-text">SimpleBot: Not connected</span>
+      </div>
+    </div>
+    <div class="status-center">
+      <span class="status-info" id="status-week-info">Week 1 · ~30 min</span>
+    </div>
+    <div class="status-right">
+      <button class="status-connect-btn" id="btn-connect-robot" title="Connect to your SimpleBot">
+        🔌 Connect SimpleBot
+      </button>
+    </div>
+  </footer>
+
+  <!-- ====== ROBOT CONNECTION MODAL ====== -->
+  <div class="modal-overlay" id="modal-overlay" style="display:none;">
+    <div class="modal" id="connect-modal">
+      <div class="modal-header">
+        <h2>🔌 Connect to SimpleBot</h2>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>Enter your SimpleBot's IP address or hostname. You can find it on the serial monitor or try the default.</p>
+        <div class="modal-input-group">
+          <label for="robot-ip">SimpleBot Address</label>
+          <input type="text" id="robot-ip" placeholder="simplebot5.local or 192.168.4.1" autocomplete="off" spellcheck="false">
+        </div>
+        <p class="modal-hint">💡 Your SimpleBot and this device must be on the same Wi-Fi network (or connect to the bot's hotspot).</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-skip-connect">Skip for now</button>
+        <button class="btn btn-connect" id="btn-do-connect">
+          <span class="btn-icon">📡</span> Connect
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== CELEBRATION CANVAS ====== -->
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <!-- ====== SCRIPTS ====== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

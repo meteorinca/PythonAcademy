@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Mission Control — Your robot dog adventure starts here. First Contact: wake up your robot, learn what Wi-Fi really is, and discover the STEM behind your new companion.">
+  <title>Mission Control — First Contact</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+</head>
+
+<body>
+
+  <!-- Floating background particles -->
+  <div class="float-dots" id="float-dots" aria-hidden="true"></div>
+
+  <!-- Particle canvas for celebrations -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- ==================== SCREEN 0: INTRO ==================== -->
+  <section id="screen-intro" class="screen active">
+    <div class="screen-inner">
+      <div class="label">Hands-on Coding using Real Robots</div>
+      <h1 class="title">Meet <span class="highlight">Paulbot</span></h1>
+      
+      <div class="intro-media" style="margin: 20px 0; display: flex; flex-direction: column; gap: 16px; align-items: center;">
+        <img src="assets/images/botpic.png" alt="Paulbot the Robot" style="max-height: 220px; border-radius: var(--radius); box-shadow: var(--shadow-sm);">
+        <video id="intro-video" src="assets/images/dogbotMovie.mp4" autoplay loop muted playsinline style="max-height: 300px; max-width: 100%; border-radius: var(--radius); box-shadow: var(--shadow-md);"></video>
+      </div>
+
+      <button class="btn btn-primary btn-pulse" id="btn-skip-intro">
+        Begin Mission <span class="btn-icon">→</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ==================== SCREEN 1: LOADING ==================== -->
+  <section id="screen-loading" class="screen">
+    <div class="screen-inner">
+      <div class="label">Mission Control</div>
+
+      <!-- 3D Robot -->
+      <div class="robot-scene robot-assemble" id="loading-robot">
+        <div class="robot-3d">
+          <!-- Body (6-sided box) -->
+          <div class="body-3d">
+            <div class="body-face body-front">
+              <div class="robot-screen-3d">
+                <div class="robot-eye"></div>
+                <div class="robot-eye"></div>
+              </div>
+            </div>
+            <div class="body-face body-back"></div>
+            <div class="body-face body-left"></div>
+            <div class="body-face body-right"></div>
+            <div class="body-face body-top"></div>
+            <div class="body-face body-bottom"></div>
+          </div>
+          <!-- Legs -->
+          <div class="legs-3d">
+            <div class="leg-3d leg-front-left">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+            <div class="leg-3d leg-front-right">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+            <div class="leg-3d leg-back-left">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+            <div class="leg-3d leg-back-right">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+          </div>
+          <div class="robot-shadow"></div>
+        </div>
+        <span class="drag-hint">drag to rotate</span>
+      </div>
+
+      <p class="subtitle" style="animation: fade-in 0.8s ease 1.6s both;">Initializing systems<span
+          class="loading-dots"></span></p>
+
+      <div class="start-btn-wrapper" id="start-btn-wrapper" style="opacity:0;">
+        <button class="btn btn-primary btn-large btn-pulse" id="btn-start">
+          <span class="btn-icon">🚀</span> Start Mission
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SCREEN 2: WELCOME ==================== -->
+  <section id="screen-welcome" class="screen">
+    <div class="screen-inner">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Systems Online
+      </div>
+
+      <!-- 3D Robot -->
+      <div class="robot-scene" id="welcome-robot">
+        <div class="robot-3d">
+          <div class="body-3d">
+            <div class="body-face body-front">
+              <div class="robot-screen-3d">
+                <div class="robot-eye"></div>
+                <div class="robot-eye"></div>
+              </div>
+            </div>
+            <div class="body-face body-back"></div>
+            <div class="body-face body-left"></div>
+            <div class="body-face body-right"></div>
+            <div class="body-face body-top"></div>
+            <div class="body-face body-bottom"></div>
+          </div>
+          <div class="legs-3d">
+            <div class="leg-3d leg-front-left">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+            <div class="leg-3d leg-front-right">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+            <div class="leg-3d leg-back-left">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+            <div class="leg-3d leg-back-right">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+          </div>
+          <div class="robot-shadow"></div>
+        </div>
+        <span class="drag-hint">drag to rotate</span>
+      </div>
+
+      <h1 class="title">Your robot is ready.<br><span class="highlight">Let's wake it up.</span></h1>
+      <p class="subtitle">In the next few minutes, you'll connect to your robot, see it move, and give it a brand new
+        face.</p>
+
+      <button class="btn btn-primary btn-pulse" id="btn-continue-welcome">
+        Continue <span class="btn-icon">→</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ==================== SCREEN 3: CONNECTION WIZARD ==================== -->
+  <section id="screen-connect" class="screen">
+    <div class="screen-inner">
+      <div class="label">Connection Wizard</div>
+      <h1 class="title">Let's <span class="highlight-teal">connect</span></h1>
+      <p class="subtitle" id="connect-subtitle">Follow these steps to link up with your robot.</p>
+
+      <div class="connect-wizard" id="connect-wizard" style="width: 100%; max-width: 500px; text-align: center;">
+        
+        <!-- Step 1: Switch ON -->
+        <div class="wizard-step active" id="wizard-step-1" style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+          <div class="step-icon" style="margin: 0 auto;">⚡</div>
+          <h3>Step 1: Power On</h3>
+          <p>Turn the switch on the neck of Paulbot to ON.</p>
+          <img src="assets/images/switchindicatorDogbot.png" alt="Switch location" style="max-width:100%; border-radius:8px; box-shadow:var(--shadow-sm);">
+          <button class="btn btn-teal" id="btn-wizard-next-1" style="margin-top:16px;">
+            Done <span class="btn-icon">→</span>
+          </button>
+        </div>
+
+        <!-- Step 2: WiFi Connect -->
+        <div class="wizard-step" id="wizard-step-2" style="display: none; flex-direction: column; align-items: center; gap: 16px;">
+          <div class="step-icon" style="margin: 0 auto;">🔌</div>
+          <h3>Step 2: Connect to WiFi</h3>
+          <p>After turning on, the bot will display an IP address: <strong>192.168.4.1</strong> and emit its own Hotspot (also called Access Point).</p>
+          <p>Connect your computer to the bot's WiFi network by following these screenshots:</p>
+          
+          <div class="wizard-carousel" style="width: 100%; overflow-x: auto; display: flex; gap: 12px; padding-bottom: 12px; snap-type: x mandatory;">
+            <img src="assets/images/wificonn.PNG" alt="WiFi Step 1" style="max-height: 250px; scroll-snap-align: center; border-radius: 6px; box-shadow: var(--shadow-sm);">
+            <img src="assets/images/wifipage.PNG" alt="WiFi Step 2" style="max-height: 250px; scroll-snap-align: center; border-radius: 6px; box-shadow: var(--shadow-sm);">
+            <img src="assets/images/addwifigui.PNG" alt="WiFi Step 3" style="max-height: 250px; scroll-snap-align: center; border-radius: 6px; box-shadow: var(--shadow-sm);">
+            <img src="assets/images/IP_address.png" alt="WiFi Step 4" style="max-height: 250px; scroll-snap-align: center; border-radius: 6px; box-shadow: var(--shadow-sm);">
+            <img src="assets/images/gui.PNG" alt="WiFi Step 5" style="max-height: 250px; scroll-snap-align: center; border-radius: 6px; box-shadow: var(--shadow-sm);">
+          </div>
+          <div style="font-size: 0.8rem; color: var(--gray-400);">Scroll horizontally to see all steps →</div>
+          
+          <button class="btn btn-teal" id="btn-wizard-next-2" style="margin-top:8px;">
+            Connected! <span class="btn-icon">→</span>
+          </button>
+        </div>
+
+        <!-- Step 3: Browse to local -->
+        <div class="wizard-step" id="wizard-step-3" style="display: none; flex-direction: column; align-items: center; gap: 16px;">
+          <div class="step-icon" style="margin: 0 auto;">🌐</div>
+          <h3>Step 3: Open Control Panel</h3>
+          <p>We can't automatically search for the bot, so open a new browser tab and go to:</p>
+          <div class="url-box" style="background:var(--white); padding:16px 32px; border-radius:8px; font-family:monospace; font-size:1.4rem; font-weight:bold; color:var(--teal-dark); border:2px dashed var(--teal);">
+            dogbot1.local
+          </div>
+          <p>You should be able to control the bot.</p>
+          <button class="btn btn-teal" id="btn-wizard-next-3" style="margin-top:8px;">
+            Done! Congrats! <span class="btn-icon">🎉</span>
+          </button>
+        </div>
+
+        <!-- Step 4: Done -->
+        <div class="wizard-step" id="wizard-step-4" style="display: none; flex-direction: column; align-items: center; gap: 16px;">
+          <div class="step-icon" style="margin: 0 auto; background:var(--teal-light); color:var(--teal-dark);">✅</div>
+          <h3>Awesome!</h3>
+          <p>Your robot is fully connected and ready to go.</p>
+          <button class="btn btn-primary btn-pulse" id="btn-continue-connect" style="margin-top:16px;">
+            Next Step <span class="btn-icon">→</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SCREEN 4: WAVE TEST ==================== -->
+  <section id="screen-wave" class="screen">
+    <div class="screen-inner">
+      <div class="label">First Command</div>
+      <h1 class="title">Make it <span class="highlight">wave!</span></h1>
+      <p class="subtitle">Press the button and watch your Paulbot say hello.</p>
+
+      <!-- 3D Robot -->
+      <div class="robot-scene" id="wave-robot">
+        <div class="robot-3d">
+          <div class="body-3d">
+            <div class="body-face body-front">
+              <div class="robot-screen-3d">
+                <div class="robot-eye"></div>
+                <div class="robot-eye"></div>
+              </div>
+            </div>
+            <div class="body-face body-back"></div>
+            <div class="body-face body-left"></div>
+            <div class="body-face body-right"></div>
+            <div class="body-face body-top"></div>
+            <div class="body-face body-bottom"></div>
+          </div>
+          <div class="legs-3d">
+            <div class="leg-3d leg-front-left">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+            <div class="leg-3d leg-front-right">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+            <div class="leg-3d leg-back-left">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+            <div class="leg-3d leg-back-right">
+              <div class="leg-face leg-front-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-back-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-left-face">
+                <div class="leg-foot"></div>
+              </div>
+              <div class="leg-face leg-right-face">
+                <div class="leg-foot"></div>
+              </div>
+            </div>
+          </div>
+          <div class="robot-shadow"></div>
+        </div>
+      </div>
+
+      <button class="wave-btn" id="btn-wave">
+        <span class="btn-icon">🐾</span>
+        Wave
+      </button>
+
+      <div class="wave-success" id="wave-success">
+        <p class="subtitle" style="margin-bottom:4px;"><strong>It worked!</strong> Your robot just obeyed you. 🎉</p>
+        <button class="btn btn-primary btn-pulse" id="btn-continue-wave">
+          Next step <span class="btn-icon">→</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SCREEN 5: FACE PICKER ==================== -->
+  <section id="screen-faces" class="screen">
+    <div class="screen-inner">
+      <div class="label">Customization</div>
+      <h1 class="title">Pick a <span class="highlight-teal">face</span></h1>
+      <p class="subtitle">Choose a personality for your robot's screen. You can always change it later.</p>
+
+      <div class="face-grid" id="face-grid">
+        <!-- Happy -->
+        <div class="face-card face-happy" data-face="happy" tabindex="0" role="button" aria-label="Happy face">
+          <div class="face-eyes">
+            <div class="pixel-eye"></div>
+            <div class="pixel-eye"></div>
+          </div>
+          <div class="face-mouth"></div>
+          <span class="face-label">Happy</span>
+        </div>
+        <!-- Curious -->
+        <div class="face-card face-curious" data-face="curious" tabindex="0" role="button" aria-label="Curious face">
+          <div class="face-eyes">
+            <div class="pixel-eye"></div>
+            <div class="pixel-eye"></div>
+          </div>
+          <div class="face-mouth"></div>
+          <span class="face-label">Curious</span>
+        </div>
+        <!-- Sleepy -->
+        <div class="face-card face-sleepy" data-face="sleepy" tabindex="0" role="button" aria-label="Sleepy face">
+          <div class="face-eyes">
+            <div class="pixel-eye"></div>
+            <div class="pixel-eye"></div>
+          </div>
+          <div class="face-mouth"></div>
+          <span class="face-label">Sleepy</span>
+        </div>
+        <!-- Excited -->
+        <div class="face-card face-excited" data-face="excited" tabindex="0" role="button" aria-label="Excited face">
+          <div class="face-eyes">
+            <div class="pixel-eye"></div>
+            <div class="pixel-eye"></div>
+          </div>
+          <div class="face-mouth"></div>
+          <span class="face-label">Excited</span>
+        </div>
+        <!-- Silly -->
+        <div class="face-card face-silly" data-face="silly" tabindex="0" role="button" aria-label="Silly face">
+          <div class="face-eyes">
+            <div class="pixel-eye"></div>
+            <div class="pixel-eye"></div>
+          </div>
+          <div class="face-mouth"></div>
+          <span class="face-label">Silly</span>
+        </div>
+      </div>
+
+      <button class="btn btn-teal" id="btn-send-face" disabled>
+        <span class="btn-icon">📤</span> Send to Robot
+      </button>
+
+      <div class="send-progress" id="send-progress">
+        <div class="send-progress-bar" id="send-progress-bar"></div>
+      </div>
+
+      <div class="wave-success" id="face-success">
+        <p class="subtitle"><strong>You just changed how it looks!</strong><br>That face is now on your robot's screen.
+          🤖✨</p>
+        <button class="btn btn-primary btn-pulse" id="btn-continue-faces">
+          Start Learning Python <span class="btn-icon">🐍</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SCREEN 6: PYTHON LESSONS ==================== -->
+  <section id="screen-lessons" class="screen screen-scroll">
+    <div class="lessons-scroll">
+
+      <!-- Lessons Top Bar -->
+      <div class="lessons-topbar">
+        <div class="lessons-topbar-inner">
+          <div class="label">Week 1 · Python Foundations</div>
+          <div class="lessons-progress-bar">
+            <div class="lessons-progress-fill" id="lessons-progress-fill"></div>
+          </div>
+          <span class="lessons-progress-text" id="lessons-progress-text">0 / 8</span>
+        </div>
+      </div>
+
+      <!-- ── LESSON 1: Output is Evidence ── -->
+      <div class="lesson-block" id="lesson-1" data-lesson="1">
+        <div class="lesson-header">
+          <span class="lesson-number">Lesson 1</span>
+          <h2 class="lesson-title">Output is Evidence</h2>
+          <p class="lesson-goal"><strong>Goal:</strong> Understand that <code>print()</code> sends visible output and
+            that quotes mean text.</p>
+        </div>
+
+        <div class="lesson-teach">
+          <h3>📖 Key Ideas</h3>
+          <ul>
+            <li>Code is instructions — the computer follows them exactly.</li>
+            <li>Python runs <strong>top to bottom</strong>, one line at a time.</li>
+            <li><code>print()</code> shows a value on screen — it's how you see what your code does.</li>
+            <li>Text must go inside <strong>quotes</strong> — that's how Python knows it's text, not a command.</li>
+          </ul>
+        </div>
+
+        <!-- Prediction Task 1 -->
+        <div class="lesson-task">
+          <h3>🔮 Predict</h3>
+          <p>Before you run this, what do you think will appear?</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python</span></div>
+            <textarea class="code-editor" id="editor-1a" spellcheck="false" readonly>print("Hello")
+print("Robot")</textarea>
+          </div>
+          <div class="prediction-box">
+            <label for="predict-1a">Write your prediction:</label>
+            <input type="text" id="predict-1a" class="prediction-input" placeholder="What will print?">
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="1a">▶ Run</button>
+          <div class="output-console" id="output-1a"></div>
+          <div class="prediction-result" id="result-1a"></div>
+        </div>
+
+        <!-- Prediction Task 2 -->
+        <div class="lesson-task">
+          <h3>🔮 Predict Again</h3>
+          <p>Now what about this? Look carefully — what's different?</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python</span></div>
+            <textarea class="code-editor" id="editor-1b" spellcheck="false" readonly>print("Hello")
+print("Hello")</textarea>
+          </div>
+          <div class="prediction-box">
+            <label for="predict-1b">Your prediction:</label>
+            <input type="text" id="predict-1b" class="prediction-input" placeholder="What will print this time?">
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="1b">▶ Run</button>
+          <div class="output-console" id="output-1b"></div>
+        </div>
+
+        <!-- Debugging Task -->
+        <div class="lesson-task lesson-task-debug">
+          <h3>🐛 Debug This</h3>
+          <p>This code is broken. Can you fix it?</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Fix me!</span></div>
+            <textarea class="code-editor" id="editor-1c" spellcheck="false">print(Hello)</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="1c">▶ Run</button>
+          <div class="output-console" id="output-1c"></div>
+          <div class="hint-box" id="hint-1c">
+            <button class="hint-toggle">💡 Need a hint?</button>
+            <p class="hint-text">Python sees <code>Hello</code> without quotes and thinks it's a variable name — but no
+              variable called <code>Hello</code> exists! Add quotes around it to make it text.</p>
+          </div>
+        </div>
+
+        <!-- Why Question -->
+        <div class="lesson-task lesson-task-why">
+          <h3>🤔 Think About It</h3>
+          <ul class="why-questions">
+            <li>Why did Python complain about <code>Hello</code> without quotes?</li>
+            <li>What's the difference between <code>Hello</code> and <code>"Hello"</code>?</li>
+          </ul>
+          <textarea class="reflection-input" placeholder="Explain in your own words…"></textarea>
+        </div>
+
+        <!-- Mini Challenge -->
+        <div class="lesson-task lesson-task-challenge">
+          <h3>🚀 Mini Challenge</h3>
+          <p>Print three lines: your name, your robot's name, and a mission sentence.</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Your code</span></div>
+            <textarea class="code-editor" id="editor-1d" spellcheck="false">print("Your name here")
+print("Robot name here")
+print("We are going to...")</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="1d">▶ Run</button>
+          <div class="output-console" id="output-1d"></div>
+        </div>
+
+        <!-- What You Learned -->
+        <div class="lesson-summary">
+          <h3>✅ What You Actually Learned</h3>
+          <ul>
+            <li>Output is a <strong>result</strong> of code — <code>print()</code> makes it visible.</li>
+            <li><strong>Quotes matter</strong> — they tell Python "this is text."</li>
+            <li>Syntax mistakes matter — one missing quote breaks everything.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-primary lesson-next-btn" data-next="2">
+          Next: Variables <span class="btn-icon">→</span>
+        </button>
+      </div>
+
+      <!-- ── LESSON 2: Variables are Labeled Memory ── -->
+      <div class="lesson-block" id="lesson-2" data-lesson="2" style="display:none;">
+        <div class="lesson-header">
+          <span class="lesson-number">Lesson 2</span>
+          <h2 class="lesson-title">Variables are Labeled Memory</h2>
+          <p class="lesson-goal"><strong>Goal:</strong> Understand that variables store values, and names point to data.
+          </p>
+        </div>
+
+        <div class="lesson-teach">
+          <h3>📖 Key Ideas</h3>
+          <ul>
+            <li>A variable is a <strong>label</strong> — it points to a value stored in memory.</li>
+            <li><code>robot_name = "Bolt"</code> means "store this text under this name."</li>
+            <li>Later, you can use the name again and Python remembers the value.</li>
+          </ul>
+        </div>
+
+        <div class="lesson-task">
+          <h3>🔮 Predict</h3>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python</span></div>
+            <textarea class="code-editor" id="editor-2a" spellcheck="false" readonly>robot_name = "Bolt"
+print(robot_name)</textarea>
+          </div>
+          <div class="prediction-box">
+            <label for="predict-2a">What will print?</label>
+            <input type="text" id="predict-2a" class="prediction-input" placeholder="Your prediction…">
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="2a">▶ Run</button>
+          <div class="output-console" id="output-2a"></div>
+        </div>
+
+        <div class="lesson-task">
+          <h3>🔮 Predict — Reassignment</h3>
+          <p>This one is tricky. Think carefully.</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python</span></div>
+            <textarea class="code-editor" id="editor-2b" spellcheck="false" readonly>robot_name = "Bolt"
+robot_name = "Nova"
+print(robot_name)</textarea>
+          </div>
+          <div class="prediction-box">
+            <label for="predict-2b">What prints?</label>
+            <input type="text" id="predict-2b" class="prediction-input" placeholder="Bolt or Nova?">
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="2b">▶ Run</button>
+          <div class="output-console" id="output-2b"></div>
+        </div>
+
+        <div class="lesson-task lesson-task-why">
+          <h3>🤔 Explain</h3>
+          <p>Why is the answer <code>Nova</code> and not <code>Bolt</code>?</p>
+          <textarea class="reflection-input" placeholder="Because…"></textarea>
+        </div>
+
+        <div class="lesson-task lesson-task-debug">
+          <h3>🐛 Debug This</h3>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Fix me!</span></div>
+            <textarea class="code-editor" id="editor-2c" spellcheck="false">battery = 90
+print("Battery: " + battery)</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="2c">▶ Run</button>
+          <div class="output-console" id="output-2c"></div>
+          <div class="hint-box" id="hint-2c">
+            <button class="hint-toggle">💡 Need a hint?</button>
+            <p class="hint-text">You can't add a string and a number with <code>+</code>. Try <code>str(battery)</code>
+              to convert the number to text, or use an f-string: <code>f"Battery: {battery}"</code></p>
+          </div>
+        </div>
+
+        <div class="lesson-task lesson-task-challenge">
+          <h3>🚀 Mini Challenge</h3>
+          <p>Create variables for your robot's name, battery, and mood. Then print them.</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Your code</span></div>
+            <textarea class="code-editor" id="editor-2d" spellcheck="false">robot_name = "Spark"
+battery = 85
+mood = "happy"
+
+print(robot_name)
+print(battery)
+print(mood)</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="2d">▶ Run</button>
+          <div class="output-console" id="output-2d"></div>
+        </div>
+
+        <div class="lesson-summary">
+          <h3>✅ What You Actually Learned</h3>
+          <ul>
+            <li>Variables can <strong>change</strong> — the last value wins.</li>
+            <li>Strings and numbers are <strong>different types</strong> — you can't just smash them together.</li>
+            <li>Names aren't magic — they just <strong>hold values</strong>.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-primary lesson-next-btn" data-next="3">
+          Next: Types <span class="btn-icon">→</span>
+        </button>
+      </div>
+
+      <!-- ── LESSON 3: Types Change What Code Can Do ── -->
+      <div class="lesson-block" id="lesson-3" data-lesson="3" style="display:none;">
+        <div class="lesson-header">
+          <span class="lesson-number">Lesson 3</span>
+          <h2 class="lesson-title">Types Change What Code Can Do</h2>
+          <p class="lesson-goal"><strong>Goal:</strong> Understand strings, integers, floats, booleans as useful
+            categories — not vocab words.</p>
+        </div>
+
+        <div class="lesson-teach">
+          <h3>📖 Key Ideas</h3>
+          <ul>
+            <li><strong>String</strong> = text → <code>"Paulbot"</code></li>
+            <li><strong>Integer</strong> = whole number → <code>85</code></li>
+            <li><strong>Float</strong> = decimal number → <code>72.5</code></li>
+            <li><strong>Boolean</strong> = True or False → <code>True</code></li>
+          </ul>
+        </div>
+
+        <div class="lesson-task">
+          <h3>🔮 Predict — What can you do?</h3>
+          <p><strong>Can you add 2 to <code>"Paulbot"</code>?</strong> Can you add 2 to <code>85</code>? Can you compare
+            <code>battery > 20</code>?
+          </p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python</span></div>
+            <textarea class="code-editor" id="editor-3a" spellcheck="false">name = "Paulbot"
+battery = 85
+temperature = 72.5
+ready = True
+
+print(type(name))
+print(type(battery))
+print(type(temperature))
+print(type(ready))
+print(battery + 2)
+print(battery > 20)</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="3a">▶ Run</button>
+          <div class="output-console" id="output-3a"></div>
+        </div>
+
+        <div class="lesson-task lesson-task-challenge">
+          <h3>🚀 Robot Status Card</h3>
+          <p>Make a full robot status card and print a readable report.</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Your code</span></div>
+            <textarea class="code-editor" id="editor-3b" spellcheck="false">name = "Paulbot"
+battery = 82
+temperature = 24.5
+ready = True
+
+print("Robot Status Report")
+print("Name: " + name)
+print("Battery: " + str(battery) + "%")
+print("Temp: " + str(temperature) + "°C")
+print("Ready: " + str(ready))</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="3b">▶ Run</button>
+          <div class="output-console" id="output-3b"></div>
+        </div>
+
+        <div class="lesson-task lesson-task-why">
+          <h3>🤔 Think About It</h3>
+          <ul class="why-questions">
+            <li>Why does <code>"Paulbot" + 2</code> fail but <code>85 + 2</code> works?</li>
+            <li>Why does Python care about the <em>type</em> of data?</li>
+          </ul>
+          <textarea class="reflection-input"
+            placeholder="Because the type tells Python what operations make sense…"></textarea>
+        </div>
+
+        <div class="lesson-summary">
+          <h3>✅ What You Actually Learned</h3>
+          <ul>
+            <li>Not just definitions — <strong>data type affects behavior</strong>.</li>
+            <li>You can't do math on text or concatenate numbers to strings without converting first.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-primary lesson-next-btn" data-next="4">
+          Next: f-strings <span class="btn-icon">→</span>
+        </button>
+      </div>
+
+      <!-- ── LESSON 4: Build Messages with f-strings ── -->
+      <div class="lesson-block" id="lesson-4" data-lesson="4" style="display:none;">
+        <div class="lesson-header">
+          <span class="lesson-number">Lesson 4</span>
+          <h2 class="lesson-title">Build Messages with f-strings</h2>
+          <p class="lesson-goal"><strong>Goal:</strong> Use f-strings because they solve a real problem — ugly
+            concatenation.</p>
+        </div>
+
+        <div class="lesson-teach">
+          <h3>📖 The Problem</h3>
+          <p>Concatenation with <code>+</code> is messy, especially with numbers:</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>The ugly way</span></div>
+            <textarea class="code-editor" id="editor-4pre" spellcheck="false"
+              readonly>print("Robot: " + robot_name + " Battery: " + str(battery))</textarea>
+          </div>
+          <p style="margin-top:12px;">f-strings fix this: put <code>f</code> before the quotes, and
+            <code>{variable}</code> inside:
+          </p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>The clean way</span></div>
+            <textarea class="code-editor" id="editor-4pre2" spellcheck="false"
+              readonly>print(f"Robot: {robot_name} Battery: {battery}")</textarea>
+          </div>
+        </div>
+
+        <div class="lesson-task">
+          <h3>🔮 Predict</h3>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python</span></div>
+            <textarea class="code-editor" id="editor-4a" spellcheck="false" readonly>battery = 80
+print(f"Battery left: {battery}%")
+print(f"Half battery: {battery / 2}%")</textarea>
+          </div>
+          <div class="prediction-box">
+            <label for="predict-4a">What will print?</label>
+            <input type="text" id="predict-4a" class="prediction-input" placeholder="Your prediction…">
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="4a">▶ Run</button>
+          <div class="output-console" id="output-4a"></div>
+        </div>
+
+        <div class="lesson-task lesson-task-challenge">
+          <h3>🚀 Dashboard Challenge</h3>
+          <p>Build a dashboard with name, battery, estimated runtime, and speed using f-strings.</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Your code</span></div>
+            <textarea class="code-editor" id="editor-4b" spellcheck="false">name = "Spark"
+battery = 80
+speed = 2.5
+runtime = battery / 12
+
+print(f"=== Robot Dashboard ===")
+print(f"Name: {name}")
+print(f"Battery: {battery}%")
+print(f"Speed: {speed} m/s")
+print(f"Runtime: {runtime:.1f} hours")</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="4b">▶ Run</button>
+          <div class="output-console" id="output-4b"></div>
+        </div>
+
+        <div class="lesson-task lesson-task-why">
+          <h3>🤔 Think About It</h3>
+          <p>What does <code>{runtime:.1f}</code> do? Why is formatting not just decoration?</p>
+          <textarea class="reflection-input" placeholder="Formatting is how programmers make data…"></textarea>
+        </div>
+
+        <div class="lesson-summary">
+          <h3>✅ What You Actually Learned</h3>
+          <ul>
+            <li>Formatting is not decoration — it's how programmers <strong>make data readable</strong>.</li>
+            <li>f-strings handle numbers automatically — no need for <code>str()</code>.</li>
+            <li>You can do <strong>calculations inside</strong> the curly braces.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-primary lesson-next-btn" data-next="5">
+          Next: Sequence <span class="btn-icon">→</span>
+        </button>
+      </div>
+
+      <!-- ── LESSON 5: Sequence and State ── -->
+      <div class="lesson-block" id="lesson-5" data-lesson="5" style="display:none;">
+        <div class="lesson-header">
+          <span class="lesson-number">Lesson 5</span>
+          <h2 class="lesson-title">Sequence and State</h2>
+          <p class="lesson-goal"><strong>Goal:</strong> Understand that order changes behavior. This is the bridge to
+            robot control.</p>
+        </div>
+
+        <div class="lesson-teach">
+          <h3>📖 Key Ideas</h3>
+          <ul>
+            <li>Python runs <strong>line by line</strong>, top to bottom.</li>
+            <li>If you change the <strong>order</strong>, you change the result.</li>
+            <li>This is why a robot <em>waking up then speaking</em> feels different from <em>speaking then waking
+                up</em>.</li>
+          </ul>
+        </div>
+
+        <div class="lesson-task">
+          <h3>🔮 Predict the Robot Behavior</h3>
+          <p>Imagine these run on your real robot. How would the sequence <em>feel</em>?</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Sequence A</span></div>
+            <textarea class="code-editor" id="editor-5a" spellcheck="false" readonly>my_dog.set_face("sleepy")
+my_dog.say("Good morning")
+my_dog.stand()</textarea>
+          </div>
+          <div class="code-editor-block" style="margin-top:12px;">
+            <div class="code-editor-header"><span>Sequence B</span></div>
+            <textarea class="code-editor" id="editor-5b" spellcheck="false" readonly>my_dog.stand()
+my_dog.say("Good morning")
+my_dog.set_face("sleepy")</textarea>
+          </div>
+          <div class="prediction-box">
+            <label for="predict-5">Same commands, different order. Why does it feel different?</label>
+            <textarea class="reflection-input" id="predict-5"
+              placeholder="Sequence A feels like… Sequence B feels like…"></textarea>
+          </div>
+        </div>
+
+        <div class="lesson-task lesson-task-challenge">
+          <h3>🚀 Mini Challenge</h3>
+          <p>Write a 4-step robot wake-up routine. Think about what order makes the most sense.</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Your code</span></div>
+            <textarea class="code-editor" id="editor-5c" spellcheck="false">from robot import Dog
+my_dog = Dog("Spark")
+
+# Write your 4-step wake-up routine:
+my_dog.set_face("sleepy")
+my_dog.say("*yawns*")
+my_dog.stand()
+my_dog.set_face("happy")</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="5c">▶ Run</button>
+          <div class="output-console" id="output-5c"></div>
+        </div>
+
+        <div class="lesson-summary">
+          <h3>✅ What You Actually Learned</h3>
+          <ul>
+            <li>Programming is not just commands — it is <strong>sequence</strong>.</li>
+            <li>The same commands in a different order create a completely different experience.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-primary lesson-next-btn" data-next="6">
+          Next: Modules <span class="btn-icon">→</span>
+        </button>
+      </div>
+
+      <!-- ── LESSON 6: Functions from a Module ── -->
+      <div class="lesson-block" id="lesson-6" data-lesson="6" style="display:none;">
+        <div class="lesson-header">
+          <span class="lesson-number">Lesson 6</span>
+          <h2 class="lesson-title">Functions from a Module</h2>
+          <p class="lesson-goal"><strong>Goal:</strong> Understand what <code>from robot import Dog</code> really means.
+          </p>
+        </div>
+
+        <div class="lesson-teach">
+          <h3>📖 Key Ideas</h3>
+          <ul>
+            <li>A <strong>module</strong> is a file of Python tools someone else wrote.</li>
+            <li><code>Dog</code> is one tool inside the <code>robot</code> module.</li>
+            <li>Importing lets you <strong>use code someone else wrote</strong>.</li>
+            <li><code>my_dog = Dog("Spark")</code> creates an object with abilities — stored in <code>my_dog</code>.
+            </li>
+          </ul>
+        </div>
+
+        <div class="lesson-task">
+          <h3>🏷️ Label the Parts</h3>
+          <p>Look at each line. Answer: which part loads code? Which creates the robot? Which makes it speak?</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python</span></div>
+            <textarea class="code-editor" id="editor-6a" spellcheck="false" readonly>from robot import Dog       # Line A
+my_dog = Dog("Spark")       # Line B
+my_dog.say("Hi!")            # Line C</textarea>
+          </div>
+          <div class="label-exercise">
+            <div class="label-row">
+              <span class="label-q">Which line loads code from a module?</span>
+              <select class="label-select" data-answer="A">
+                <option value="">Pick…</option>
+                <option value="A">Line A</option>
+                <option value="B">Line B</option>
+                <option value="C">Line C</option>
+              </select>
+              <span class="label-feedback"></span>
+            </div>
+            <div class="label-row">
+              <span class="label-q">Which line creates the robot?</span>
+              <select class="label-select" data-answer="B">
+                <option value="">Pick…</option>
+                <option value="A">Line A</option>
+                <option value="B">Line B</option>
+                <option value="C">Line C</option>
+              </select>
+              <span class="label-feedback"></span>
+            </div>
+            <div class="label-row">
+              <span class="label-q">Which line makes it speak?</span>
+              <select class="label-select" data-answer="C">
+                <option value="">Pick…</option>
+                <option value="A">Line A</option>
+                <option value="B">Line B</option>
+                <option value="C">Line C</option>
+              </select>
+              <span class="label-feedback"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lesson-task lesson-task-why">
+          <h3>🤔 Plain-English Explanation</h3>
+          <p>Explain this code to a 10-year-old with no coding experience:</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python</span></div>
+            <textarea class="code-editor" readonly spellcheck="false">from robot import Dog
+my_dog = Dog("Spark")
+my_dog.say("Hello!")</textarea>
+          </div>
+          <textarea class="reflection-input" placeholder="It's like opening a toolbox and…"></textarea>
+        </div>
+
+        <div class="lesson-summary">
+          <h3>✅ What You Actually Learned</h3>
+          <ul>
+            <li>You can read code <strong>structurally</strong> — imports, creation, action.</li>
+            <li>A module is just a file of tools, and importing gives you access.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-primary lesson-next-btn" data-next="7">
+          Next: Debugging <span class="btn-icon">→</span>
+        </button>
+      </div>
+
+      <!-- ── LESSON 7: Debugging ── -->
+      <div class="lesson-block" id="lesson-7" data-lesson="7" style="display:none;">
+        <div class="lesson-header">
+          <span class="lesson-number">Lesson 7</span>
+          <h2 class="lesson-title">Debugging is Part of Programming</h2>
+          <p class="lesson-goal"><strong>Goal:</strong> Read errors, understand why code breaks, and fix it. This may be
+            the most valuable skill of the whole week.</p>
+        </div>
+
+        <div class="lesson-teach">
+          <h3>📖 The Truth</h3>
+          <p>Professional programmers spend <em>most</em> of their time debugging. Mistakes are normal, readable, and
+            fixable. Every error message is a clue.</p>
+        </div>
+
+        <div class="lesson-task lesson-task-debug">
+          <h3>🐛 Bug 1: Broken Quotes</h3>
+          <p>Say what the code is <em>trying</em> to do. Guess why it fails. Fix it.</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Fix me!</span></div>
+            <textarea class="code-editor" id="editor-7a" spellcheck="false">print("Hello)</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="7a">▶ Run</button>
+          <div class="output-console" id="output-7a"></div>
+        </div>
+
+        <div class="lesson-task lesson-task-debug">
+          <h3>🐛 Bug 2: Wrong Variable Name</h3>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Fix me!</span></div>
+            <textarea class="code-editor" id="editor-7b" spellcheck="false">robot_name = "Bolt"
+print(robt_name)</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="7b">▶ Run</button>
+          <div class="output-console" id="output-7b"></div>
+        </div>
+
+        <div class="lesson-task lesson-task-debug">
+          <h3>🐛 Bug 3: String + Number</h3>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Fix me!</span></div>
+            <textarea class="code-editor" id="editor-7c" spellcheck="false">battery = 90
+print("Battery: " + battery)</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="7c">▶ Run</button>
+          <div class="output-console" id="output-7c"></div>
+        </div>
+
+        <div class="lesson-task lesson-task-debug">
+          <h3>🐛 Bug 4: Missing Parentheses</h3>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Fix me!</span></div>
+            <textarea class="code-editor" id="editor-7d" spellcheck="false">print "Hello"</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="7d">▶ Run</button>
+          <div class="output-console" id="output-7d"></div>
+        </div>
+
+        <div class="lesson-summary">
+          <h3>✅ What You Actually Learned</h3>
+          <ul>
+            <li>Mistakes are <strong>normal</strong>, readable, and fixable.</li>
+            <li>Every error message is a <strong>clue</strong>, not a punishment.</li>
+            <li>Spelling, quotes, parentheses, and types — the four most common bugs.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-primary lesson-next-btn" data-next="8">
+          Next: Final Project <span class="btn-icon">→</span>
+        </button>
+      </div>
+
+      <!-- ── LESSON 8: Final Project ── -->
+      <div class="lesson-block" id="lesson-8" data-lesson="8" style="display:none;">
+        <div class="lesson-header">
+          <span class="lesson-number">Lesson 8</span>
+          <h2 class="lesson-title">Final Project: Robot Startup Routine</h2>
+          <p class="lesson-goal"><strong>Goal:</strong> Combine everything you've learned into one real program.</p>
+        </div>
+
+        <div class="lesson-teach">
+          <h3>📋 Requirements</h3>
+          <ul>
+            <li>Create at least <strong>4 variables</strong></li>
+            <li>Include one number and one boolean</li>
+            <li>Use at least <strong>3 <code>print()</code></strong> lines</li>
+            <li>Use at least <strong>2 robot actions</strong></li>
+            <li>Include <strong>one calculation</strong></li>
+            <li>Use <strong>f-strings</strong> for at least one message</li>
+          </ul>
+        </div>
+
+        <div class="lesson-task lesson-task-challenge">
+          <h3>🏁 Build It</h3>
+          <p>When the robot powers on, it should: identify itself, report battery, report whether it's ready, do a
+            motion, and print a systems log.</p>
+          <div class="code-editor-block">
+            <div class="code-editor-header"><span>Python — Your Final Project</span></div>
+            <textarea class="code-editor code-editor-large" id="editor-8a" spellcheck="false">from robot import Dog
+
+# === Your variables ===
+robot_name = "Spark"
+battery = 85
+ready = True
+speed = 2.5
+
+# === Create the robot ===
+my_dog = Dog(robot_name)
+
+# === Startup routine ===
+my_dog.set_face("happy")
+my_dog.say(f"Hi! I'm {robot_name}!")
+
+# === Systems log ===
+runtime = battery / 12
+print(f"=== Systems Log ===")
+print(f"Robot: {robot_name}")
+print(f"Battery: {battery}%")
+print(f"Ready: {ready}")
+print(f"Est. Runtime: {runtime:.1f} hours")
+print(f"Speed: {speed} m/s")
+
+# === Motion ===
+my_dog.stand()
+my_dog.wave()</textarea>
+          </div>
+          <button class="btn btn-teal btn-run" data-editor="8a">▶ Run</button>
+          <div class="output-console" id="output-8a"></div>
+        </div>
+
+        <div class="lesson-task lesson-task-why">
+          <h3>🪞 Reflection</h3>
+          <ul class="why-questions">
+            <li>Which line of code are you most proud of?</li>
+            <li>Which line would break if you removed the quotes?</li>
+            <li>What variable can you change to get different behavior fast?</li>
+            <li>If the battery dropped to 15, what <em>should</em> the program do differently? (Hint: that's Week 2!)
+            </li>
+          </ul>
+          <textarea class="reflection-input reflection-input-large"
+            placeholder="Write your reflections here…"></textarea>
+        </div>
+
+        <div class="lesson-summary"
+          style="background: linear-gradient(135deg, #E0FBF8, #FFF3CC); border: 2px solid var(--teal);">
+          <h3>🏆 Week 1 Complete!</h3>
+          <ul>
+            <li>You've learned <code>print()</code>, variables, types, f-strings, sequence, imports, and debugging.</li>
+            <li>You can <strong>predict</strong>, <strong>observe</strong>, <strong>explain</strong>,
+              <strong>modify</strong>, and <strong>debug</strong> Python code.
+            </li>
+            <li>That's actual programming. Most adults never get this far.</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-primary btn-large lesson-next-btn btn-pulse" data-next="done">
+          Complete Week 1 <span class="btn-icon">🏁</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SCREEN 7: MISSION DEBRIEF — LEARNING JOURNEY ==================== -->
+  <section id="screen-debrief" class="screen screen-scroll">
+    <div class="debrief-scroll" id="debrief-scroll">
+
+      <!-- ── Intro ── -->
+      <div class="debrief-hero">
+        <div class="label">Mission Debrief</div>
+        <h1 class="title">You did it.<br><span class="highlight">Now let's understand <em>how.</em></span></h1>
+        <p class="subtitle">You just commanded a robot. Let's peel back the curtain and see the incredible technology
+          that made it possible.</p>
+        <div class="scroll-cue" aria-hidden="true">
+          <span class="scroll-cue-text">Scroll to explore</span>
+          <div class="scroll-cue-arrow"></div>
+        </div>
+      </div>
+
+      <!-- ── Section 1: What Just Happened ── -->
+      <div class="debrief-section" data-reveal>
+        <div class="debrief-card debrief-card-wide">
+          <div class="debrief-card-icon">🤔</div>
+          <h2 class="debrief-card-title">What just happened?</h2>
+          <p class="debrief-card-text">
+            When you clicked <strong>"Wave"</strong>, your browser sent a tiny message across your Wi-Fi network. That
+            message traveled at the speed of light — <em>186,000 miles per second</em> — to your robot's brain, an ESP32
+            microchip no bigger than a postage stamp.
+          </p>
+          <div class="journey-flow">
+            <div class="journey-node journey-node-you" data-reveal-child>
+              <div class="journey-node-icon">👆</div>
+              <span>You clicked</span>
+            </div>
+            <div class="journey-arrow" data-reveal-child></div>
+            <div class="journey-node journey-node-wifi" data-reveal-child>
+              <div class="journey-node-icon">📶</div>
+              <span>Wi-Fi signal</span>
+            </div>
+            <div class="journey-arrow" data-reveal-child></div>
+            <div class="journey-node journey-node-brain" data-reveal-child>
+              <div class="journey-node-icon">🧠</div>
+              <span>Robot brain</span>
+            </div>
+            <div class="journey-arrow" data-reveal-child></div>
+            <div class="journey-node journey-node-move" data-reveal-child>
+              <div class="journey-node-icon">🐾</div>
+              <span>Leg moves!</span>
+            </div>
+          </div>
+          <p class="debrief-card-detail">
+            The robot's brain decoded your message and sent an electric pulse to a <strong>servo motor</strong> — a tiny
+            motor that can rotate to an exact angle. That's how it raised its paw. One click, four miracles of
+            engineering.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Section 2: Wi-Fi — Your Invisible Superpower ── -->
+      <div class="debrief-section" data-reveal>
+        <div class="debrief-card debrief-card-wide">
+          <div class="debrief-card-icon">📡</div>
+          <h2 class="debrief-card-title">Wi-Fi: Your invisible superpower</h2>
+          <p class="debrief-card-text">
+            Wi-Fi is just radio waves — the same kind of waves that carry music to your car radio. But instead of music,
+            Wi-Fi carries <strong>data</strong>: text, images, commands.
+          </p>
+
+          <!-- Animated Wi-Fi visualization -->
+          <div class="wifi-viz" id="wifi-viz"
+            aria-label="Animated visualization of Wi-Fi signal traveling from router to robot">
+            <div class="wifi-device wifi-router">
+              <div class="wifi-device-icon">🌐</div>
+              <span>Your Router</span>
+            </div>
+            <div class="wifi-waves-container">
+              <div class="wifi-wave wifi-wave-1"></div>
+              <div class="wifi-wave wifi-wave-2"></div>
+              <div class="wifi-wave wifi-wave-3"></div>
+              <div class="wifi-data-packet" id="wifi-packet">
+                <span>wave()</span>
+              </div>
+            </div>
+            <div class="wifi-device wifi-bot">
+              <div class="wifi-device-icon">🤖</div>
+              <span>Your Robot</span>
+            </div>
+          </div>
+
+          <div class="debrief-fact-row">
+            <div class="debrief-fact" data-reveal-child>
+              <div class="debrief-fact-num">2.4 GHz</div>
+              <div class="debrief-fact-label">Your robot's Wi-Fi frequency — it vibrates 2.4 <em>billion</em> times per
+                second</div>
+            </div>
+            <div class="debrief-fact" data-reveal-child>
+              <div class="debrief-fact-num">~0 ms</div>
+              <div class="debrief-fact-label">How long it took your command to reach the robot (under 10 milliseconds)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Section 3: The Brain Inside ── -->
+      <div class="debrief-section" data-reveal>
+        <div class="debrief-card debrief-card-wide">
+          <div class="debrief-card-icon">🧠</div>
+          <h2 class="debrief-card-title">The brain inside your robot</h2>
+          <p class="debrief-card-text">
+            Your robot runs on an <strong>ESP32</strong> — a chip that costs about $3 yet has enough power to connect to
+            Wi-Fi, read sensors, play sounds, and control four legs simultaneously.
+          </p>
+          <div class="chip-anatomy">
+            <div class="chip-visual">
+              <div class="chip-body">
+                <div class="chip-label">ESP32</div>
+                <div class="chip-pins chip-pins-left"></div>
+                <div class="chip-pins chip-pins-right"></div>
+                <div class="chip-pins chip-pins-top"></div>
+                <div class="chip-pins chip-pins-bottom"></div>
+                <div class="chip-core">
+                  <div class="chip-core-pulse"></div>
+                </div>
+              </div>
+            </div>
+            <div class="chip-features">
+              <div class="chip-feature" data-reveal-child>
+                <span class="chip-feature-icon">📶</span>
+                <div>
+                  <strong>Wi-Fi + Bluetooth</strong>
+                  <span>Talks to your phone and the internet</span>
+                </div>
+              </div>
+              <div class="chip-feature" data-reveal-child>
+                <span class="chip-feature-icon">⚡</span>
+                <div>
+                  <strong>160 MHz processor</strong>
+                  <span>Runs 160 million operations per second</span>
+                </div>
+              </div>
+              <div class="chip-feature" data-reveal-child>
+                <span class="chip-feature-icon">🎵</span>
+                <div>
+                  <strong>Speaker + Microphone</strong>
+                  <span>Can hear you and talk back</span>
+                </div>
+              </div>
+              <div class="chip-feature" data-reveal-child>
+                <span class="chip-feature-icon">🦿</span>
+                <div>
+                  <strong>4 Servo outputs</strong>
+                  <span>Controls each leg independently</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="debrief-card-callout">
+            💡 <strong>Fun fact:</strong> The first computer that guided Apollo astronauts to the Moon had <em>less</em>
+            processing power than this $3 chip in your robot.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Section 4: STEM Is Everywhere ── -->
+      <div class="debrief-section" data-reveal>
+        <div class="debrief-card debrief-card-wide">
+          <div class="debrief-card-icon">🌍</div>
+          <h2 class="debrief-card-title">The same tech, everywhere</h2>
+          <p class="debrief-card-text">
+            The skills you're learning right now — sending commands over a network, controlling motors, writing logic —
+            are the <strong>exact same skills</strong> behind some of humanity's greatest achievements.
+          </p>
+          <div class="stem-grid">
+            <div class="stem-card" data-reveal-child>
+              <div class="stem-card-emoji">🚀</div>
+              <h3>Mars Rovers</h3>
+              <p>NASA sends commands to Perseverance the same way you just controlled your robot — a message across a
+                network. Theirs just travels 140&nbsp;million miles.</p>
+            </div>
+            <div class="stem-card" data-reveal-child>
+              <div class="stem-card-emoji">🏥</div>
+              <h3>Surgical Robots</h3>
+              <p>Da Vinci robots perform surgery using the same servo motors in your bot — just more precise and
+                sterilized.</p>
+            </div>
+            <div class="stem-card" data-reveal-child>
+              <div class="stem-card-emoji">🚗</div>
+              <h3>Self-Driving Cars</h3>
+              <p>Every Tesla has an ESP-like chip reading sensors and making decisions — the same loop your robot uses
+                to hear claps and react.</p>
+            </div>
+            <div class="stem-card" data-reveal-child>
+              <div class="stem-card-emoji">🛰️</div>
+              <h3>Satellites</h3>
+              <p>The International Space Station uses Wi-Fi on board. Astronauts browse the internet at 250 miles above
+                Earth — same protocol, bigger antenna.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Section 5: Why This Matters ── -->
+      <div class="debrief-section" data-reveal>
+        <div class="debrief-card debrief-card-quote">
+          <blockquote>
+            "Every expert was once a beginner. Every rover started as someone's school project."
+          </blockquote>
+          <p class="debrief-card-text" style="margin-top: 16px;">
+            What you just did — connecting a device, sending a command, changing its behavior — is <strong>real
+              engineering</strong>. Not a simulation. Not a game. You just programmed a physical machine. That's what
+            engineers at NASA, SpaceX, and Google do every day.
+          </p>
+          <p class="debrief-card-text">
+            The only difference? They do it with bigger robots. <em>For now.</em>&nbsp; 😉
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Section 6: What's Coming Next ── -->
+      <div class="debrief-section" data-reveal>
+        <div class="debrief-card debrief-card-wide">
+          <div class="debrief-card-icon">🗺️</div>
+          <h2 class="debrief-card-title">Your mission roadmap</h2>
+          <p class="debrief-card-text">
+            First Contact was just the beginning. Here's what's ahead:
+          </p>
+          <div class="roadmap">
+            <div class="roadmap-item roadmap-done" data-reveal-child>
+              <div class="roadmap-marker">
+                <div class="roadmap-marker-inner">✓</div>
+              </div>
+              <div class="roadmap-content">
+                <h3>First Contact</h3>
+                <p>Connect, command, customize — <strong>done!</strong></p>
+              </div>
+            </div>
+            <div class="roadmap-item" data-reveal-child>
+              <div class="roadmap-marker">
+                <div class="roadmap-marker-inner">1</div>
+              </div>
+              <div class="roadmap-content">
+                <h3>Change How It Looks</h3>
+                <p>Draw custom faces, build animations for its OLED screen</p>
+              </div>
+            </div>
+            <div class="roadmap-item" data-reveal-child>
+              <div class="roadmap-marker">
+                <div class="roadmap-marker-inner">2</div>
+              </div>
+              <div class="roadmap-content">
+                <h3>Change How It Sounds</h3>
+                <p>Record your voice, upload sounds, give it a personality</p>
+              </div>
+            </div>
+            <div class="roadmap-item" data-reveal-child>
+              <div class="roadmap-marker">
+                <div class="roadmap-marker-inner">3</div>
+              </div>
+              <div class="roadmap-content">
+                <h3>Change How It Moves</h3>
+                <p>Choreograph gestures, teach it to dance and emote</p>
+              </div>
+            </div>
+            <div class="roadmap-item" data-reveal-child>
+              <div class="roadmap-marker">
+                <div class="roadmap-marker-inner">4</div>
+              </div>
+              <div class="roadmap-content">
+                <h3>Change How It Responds</h3>
+                <p>Build rules so the robot reacts to you — claps, sounds, your voice</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Section 7: Python & AI Sneak Peek ── -->
+      <div class="debrief-section" data-reveal>
+        <div class="debrief-card debrief-card-code">
+          <div class="debrief-card-icon">🐍</div>
+          <h2 class="debrief-card-title">Sneak peek: Python & AI</h2>
+          <p class="debrief-card-text">
+            Everything your robot just did was powered by code. Soon, <strong>you</strong> will write that code — in
+            <strong>Python</strong>, the world's most popular programming language. And when you're ready, you'll teach
+            your robot to <em>think</em> using AI.
+          </p>
+          <div class="code-preview">
+            <div class="code-window">
+              <div class="code-dots">
+                <span class="code-dot code-dot-red"></span>
+                <span class="code-dot code-dot-yellow"></span>
+                <span class="code-dot code-dot-green"></span>
+              </div>
+              <pre class="code-content"><code><span class="code-comment"># Your future code — Mission 5 preview</span>
+<span class="code-keyword">from</span> robot <span class="code-keyword">import</span> Dog
+
+my_dog = Dog(<span class="code-string">"Spark"</span>)
+my_dog.set_face(<span class="code-string">"happy"</span>)
+my_dog.say(<span class="code-string">"Hello, I'm Spark!"</span>)
+my_dog.wave()
+
+<span class="code-comment"># Ask AI to generate a response</span>
+response = my_dog.ask_ai(
+    <span class="code-string">"Tell me a fun fact about space"</span>
+)
+my_dog.say(response)</code></pre>
+            </div>
+          </div>
+          <p class="debrief-card-detail">
+            Python is used by NASA, Google, and every major AI company. Learning it now puts you ahead of 99% of people
+            your age. And you'll learn it by making your robot do cool things — not by staring at a textbook.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Final CTA ── -->
+      <div class="debrief-section debrief-final" data-reveal>
+        <div class="debrief-card debrief-card-wide" style="text-align:center;">
+          <h2 class="debrief-card-title" style="font-size: clamp(1.6rem, 4vw, 2.4rem);">
+            Ready to continue the adventure? 🚀
+          </h2>
+          <p class="debrief-card-text" style="max-width: 460px; margin: 0 auto;">
+            You've learned what Wi-Fi is, what's inside your robot, and how STEM connects to the real world. Mission 1
+            is waiting for you.
+          </p>
+          <button class="btn btn-primary btn-large btn-pulse" id="btn-continue-debrief" style="margin-top: 12px;">
+            Complete First Contact <span class="btn-icon">🏁</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SCREEN 7: COMPLETION ==================== -->
+  <section id="screen-complete" class="screen">
+    <div class="screen-inner">
+      <div class="label">Mission Complete</div>
+
+      <div class="progress-ring-container" id="progress-ring">
+        <svg class="progress-ring" width="160" height="160" viewBox="0 0 160 160">
+          <defs>
+            <linearGradient id="ring-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#22D1C3" />
+              <stop offset="100%" stop-color="#F5C842" />
+            </linearGradient>
+          </defs>
+          <circle class="progress-ring-bg" cx="80" cy="80" r="65" />
+          <circle class="progress-ring-fill" id="ring-fill" cx="80" cy="80" r="65" />
+        </svg>
+        <div class="progress-ring-text">
+          <span class="progress-ring-emoji">🎖️</span>
+          <span class="progress-ring-label">Complete</span>
+        </div>
+      </div>
+
+      <h1 class="title">First Contact <span class="highlight">complete!</span></h1>
+      <p class="subtitle">You connected, commanded, customized, and now <em>understand</em> your robot. You've done more
+        with a robot than most people do in a year.</p>
+      <p class="subtitle" style="font-weight:600; color:var(--gold-dark);">Mission 1 is ready for you.</p>
+
+      <button class="btn btn-primary btn-large" id="btn-restart">
+        <span class="btn-icon">🔄</span> Restart Experience
+      </button>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
